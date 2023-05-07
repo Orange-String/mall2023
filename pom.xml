@@ -11,11 +11,48 @@
 
     <modules>
         <module>ddqmall-coupon</module>
-        <module>ddqmall-memeber</module>
+        <module>ddqmall-member</module>
         <module>ddqmall-order</module>
         <module>ddqmall-product</module>
         <module>ddqmall-ware</module>
+        <module>renren-generator</module>
+        <module>ddqmall-common</module>
+<!--        <module>renrenfast</module>-->
+        <module>ddqmall-gateway</module>
     </modules>
+
+    <properties>
+        <spring-cloud.version>2021.0.6</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
+        <srpingboot.version>2.7.9</srpingboot.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${srpingboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>
