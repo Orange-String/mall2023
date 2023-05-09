@@ -6,8 +6,8 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('product:attrgroup:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('product:attrgroup:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('product:category:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('product:category:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -23,16 +23,34 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="attrGroupId"
+        prop="catId"
         header-align="center"
         align="center"
-        label="分组id">
+        label="分类id">
       </el-table-column>
       <el-table-column
-        prop="attrGroupName"
+        prop="name"
         header-align="center"
         align="center"
-        label="组名">
+        label="分类名称">
+      </el-table-column>
+      <el-table-column
+        prop="parentCid"
+        header-align="center"
+        align="center"
+        label="父分类id">
+      </el-table-column>
+      <el-table-column
+        prop="catLevel"
+        header-align="center"
+        align="center"
+        label="层级">
+      </el-table-column>
+      <el-table-column
+        prop="showStatus"
+        header-align="center"
+        align="center"
+        label="是否显示[0-不显示，1显示]">
       </el-table-column>
       <el-table-column
         prop="sort"
@@ -41,22 +59,22 @@
         label="排序">
       </el-table-column>
       <el-table-column
-        prop="descript"
-        header-align="center"
-        align="center"
-        label="描述">
-      </el-table-column>
-      <el-table-column
         prop="icon"
         header-align="center"
         align="center"
-        label="组图标">
+        label="图标地址">
       </el-table-column>
       <el-table-column
-        prop="catelogId"
+        prop="productUnit"
         header-align="center"
         align="center"
-        label="所属分类id">
+        label="计量单位">
+      </el-table-column>
+      <el-table-column
+        prop="productCount"
+        header-align="center"
+        align="center"
+        label="商品数量">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -65,8 +83,8 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.attrGroupId)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.attrGroupId)">删除</el-button>
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.catId)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.catId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -85,7 +103,7 @@
 </template>
 
 <script>
-  import AddOrUpdate from './attrgroup-add-or-update'
+  import AddOrUpdate from './category-add-or-update'
   export default {
     data () {
       return {
@@ -112,7 +130,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/product/attrgroup/list'),
+          url: this.$http.adornUrl('/product/category/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -155,7 +173,7 @@
       // 删除
       deleteHandle (id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
-          return item.attrGroupId
+          return item.catId
         })
         this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
           confirmButtonText: '确定',
@@ -163,7 +181,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/product/attrgroup/delete'),
+            url: this.$http.adornUrl('/product/category/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

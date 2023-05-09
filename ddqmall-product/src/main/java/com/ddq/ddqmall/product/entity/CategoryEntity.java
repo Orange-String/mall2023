@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -25,6 +26,7 @@ public class CategoryEntity implements Serializable {
 	 * 分类id
 	 */
 	@TableId
+//	@JsonFormat(shape = JsonFormat.Shape.STRING) //将id转为String
 	private Long catId;
 	/**
 	 * 分类名称

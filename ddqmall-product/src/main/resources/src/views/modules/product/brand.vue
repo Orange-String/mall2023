@@ -6,8 +6,8 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('product:skuinfo:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('product:skuinfo:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('product:brand:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('product:brand:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -23,70 +23,46 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="skuId"
-        header-align="center"
-        align="center"
-        label="skuId">
-      </el-table-column>
-      <el-table-column
-        prop="spuId"
-        header-align="center"
-        align="center"
-        label="spuId">
-      </el-table-column>
-      <el-table-column
-        prop="skuName"
-        header-align="center"
-        align="center"
-        label="sku名称">
-      </el-table-column>
-      <el-table-column
-        prop="skuDesc"
-        header-align="center"
-        align="center"
-        label="sku介绍描述">
-      </el-table-column>
-      <el-table-column
-        prop="catalogId"
-        header-align="center"
-        align="center"
-        label="所属分类id">
-      </el-table-column>
-      <el-table-column
         prop="brandId"
         header-align="center"
         align="center"
         label="品牌id">
       </el-table-column>
       <el-table-column
-        prop="skuDefaultImg"
+        prop="name"
         header-align="center"
         align="center"
-        label="默认图片">
+        label="品牌名">
       </el-table-column>
       <el-table-column
-        prop="skuTitle"
+        prop="logo"
         header-align="center"
         align="center"
-        label="标题">
+        label="品牌logo地址">
       </el-table-column>
       <el-table-column
-        prop="skuSubtitle"
+        prop="descript"
         header-align="center"
         align="center"
-        label="副标题">
+        label="介绍">
       </el-table-column>
       <el-table-column
-        prop="price"
+        prop="showStatus"
         header-align="center"
         align="center"
-        label="价格">
+        label="显示状态[0-不显示；1-显示]">
       </el-table-column>
       <el-table-column
-        prop="saleCount"
+        prop="firstLetter"
         header-align="center"
         align="center"
-        label="销量">
+        label="检索首字母">
+      </el-table-column>
+      <el-table-column
+        prop="sort"
+        header-align="center"
+        align="center"
+        label="排序">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -95,8 +71,8 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.skuId)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.skuId)">删除</el-button>
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.brandId)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.brandId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -115,7 +91,7 @@
 </template>
 
 <script>
-  import AddOrUpdate from './skuinfo-add-or-update'
+  import AddOrUpdate from './brand-add-or-update'
   export default {
     data () {
       return {
@@ -142,7 +118,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/product/skuinfo/list'),
+          url: this.$http.adornUrl('/product/brand/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -185,7 +161,7 @@
       // 删除
       deleteHandle (id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
-          return item.skuId
+          return item.brandId
         })
         this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
           confirmButtonText: '确定',
@@ -193,7 +169,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/product/skuinfo/delete'),
+            url: this.$http.adornUrl('/product/brand/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {
