@@ -1,5 +1,5 @@
 server:
-  port: 10000
+  port: 15000
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,3 +20,9 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+alibaba:
+  cloud:
+    access-key: LTAI5tCaay4ZRA7rzedFpVDi
+    secret-key: DPWyKOkC4eri65n5RTcjGO6vyG1DzN
+    oss:
+      endpoint: oss-cn-beijing.aliyuncs.com

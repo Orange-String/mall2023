@@ -21,7 +21,7 @@ import com.ddq.common.utils.R;
  * @date 2023-03-15 21:11:04
  */
 @RestController
-@RequestMapping("ddqmallproduct/category")
+@RequestMapping("product/category")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
@@ -29,7 +29,7 @@ public class CategoryController {
     /**
      * 查出所有分类及子分类，以树形结构组装起来
      */
-    @RequestMapping("/listTree")
+    @RequestMapping("/list/tree")
     public R list() {
         List<CategoryEntity> entities = categoryService.listWithTree();
         return R.ok().put("data", entities);
@@ -61,7 +61,7 @@ public class CategoryController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody CategoryEntity category) {
-        categoryService.updateById(category);
+        categoryService.updateCascade(category);
 
         return R.ok();
     }

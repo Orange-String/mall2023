@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import com.ddq.ddqmall.product.service.BrandService;
 import com.ddq.common.utils.PageUtils;
 import com.ddq.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -25,7 +27,7 @@ import com.ddq.common.utils.R;
  * @date 2023-03-15 21:11:04
  */
 @RestController
-@RequestMapping("ddqmallproduct/brand")
+@RequestMapping("product/brand")
 public class BrandController {
     @Autowired
     private BrandService brandService;
@@ -55,7 +57,7 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@Valid @RequestBody BrandEntity brand, BindingResult result){
 		brandService.save(brand);
 
         return R.ok();
@@ -66,7 +68,7 @@ public class BrandController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody BrandEntity brand){
-		brandService.updateById(brand);
+		brandService.updateDetail(brand);
 
         return R.ok();
     }
